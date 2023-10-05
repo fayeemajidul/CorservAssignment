@@ -14,6 +14,9 @@ import org.openqa.selenium.JavascriptExecutor;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import Pages.ViewBuisnessPages;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 
 public class CreditCardsView {
 	
@@ -21,10 +24,8 @@ public class CreditCardsView {
 	public static WebDriverWait wait;
 	public static ViewBuisnessPages busniessPage;
 	
- 	
-	public static void main(String[] args) throws InterruptedException {
-		
-	
+	@Test
+	public static void CreditCardSelection() throws InterruptedException {
 		WebDriver driver;	
 		WebDriverManager.chromedriver().setup();
 		
@@ -81,18 +82,12 @@ public class CreditCardsView {
 		//get int value from APR variable
 		 String numberOnly= getAPRValue.replaceAll("[^0-9^.]", "");
 		 float getAPRNo = Float.parseFloat(numberOnly); 
-		 System.out.print("\n number only APR value=" + getAPRNo);
+		 System.out.print("\n APR Located in Interest Rates and Interest Charges Page = " + getAPRNo);
 		
 		float expectValue = (float) 24.0;
 		
 		//check APR cash advance percentage
-		
-		if (getAPRNo < expectValue) {
-			System.out.print("\n APR for Cash Advances is less than 24%");
-		}else {
-			System.out.print("\n APR for Cash Advances is greater than 24%");
-		}
-		//close browser
+		Assert.assertTrue(getAPRNo < expectValue, "APR For Cash Advances is Greater than 24%, the condition was expecting True");
 		driver.quit();
 	}
 
